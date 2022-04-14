@@ -16,11 +16,16 @@ class Alien(Sprite):
         self.image = pygame.transform.scale(self.image, (80,40)) # scales alien ship
         self.rect = self.image.get_rect()
 
-        #set starting location
+        ##set starting location
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
+        self.rect.left = self.rect.left
+        self.rect.right = self.rect.right
+        self.rect.top = self.rect.top
 
+        self.top = float(self.rect.top)
         self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
 
         # spacing for the fleet
         self.available_space_x = self.settings.screen_width - (2 * self.rect.width)
@@ -28,6 +33,9 @@ class Alien(Sprite):
 
         self.speed = 1
         self.direction = 1
+
+        self.alien_right = True
+        self.alien_left = False
 
 
     def blitme(self):
@@ -45,8 +53,17 @@ class Alien(Sprite):
         screen_rect = self.screen.get_rect()
         if self.rect.right >= screen_rect.right:
             return True
-        elif self.rect.left <= 0:
+        elif self.rect.left <= -1:
             return True
+
+    def update(self):
+        if self.check_wall() == True:
+            self.direction *= -1
+            self.y += 50
+        self.x += self.speed * self.direction
+        self.rect.x = self.x
+        self.rect.y = self.rect.y
+
 
 
 

@@ -36,6 +36,10 @@ def alien_invasion():
         # access event handeler from game functions
         gf.check_events(settings, screen, ship, bullets)
 
+        bullets.update()
+
+        print(len(aliens))
+
         #updates screen
         gf.update_screen(settings, screen, ship, bullets, aliens)
 
