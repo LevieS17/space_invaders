@@ -62,7 +62,7 @@ def get_number_of_aliens(settings, alien_width):
     return number_of_aliens
 
 def get_number_rows(settings, alien_height, ship_height):
-    available_space_y = settings.screen_height - 3 * alien_height - ship_height
+    available_space_y = settings.screen_height -  6 * alien_height - ship_height
     number_of_rows = int(available_space_y/(2*alien_height))
     return number_of_rows
 
@@ -101,6 +101,7 @@ def update_screen(settings, screen, ship, bullets, aliens):
     # Draw the fleet of aliens
     aliens.draw(screen)
     aliens.update()
+
 
     # update the display
     pygame.display.flip()

@@ -13,7 +13,7 @@ class Alien(Sprite):
 
         # load alien ship image and scale it to fit screen
         self.image = pygame.image.load('Images/alien(alien_invasion).png') # loads image of alien ship form directory
-        self.image = pygame.transform.scale(self.image, (80,40)) # scales alien ship
+        self.image = pygame.transform.scale(self.image, (40,20)) # scales alien ship
         self.rect = self.image.get_rect()
 
         ##set starting location
@@ -57,9 +57,10 @@ class Alien(Sprite):
             return True
 
     def update(self):
-        if self.check_wall() == True:
+        if self.check_wall():
             self.direction *= -1
-            self.y += 50
+            self.rect.y += self.rect.height
+            # self.y = self.rect.y
         self.x += self.speed * self.direction
         self.rect.x = self.x
         self.rect.y = self.rect.y
