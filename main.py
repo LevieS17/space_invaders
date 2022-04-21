@@ -7,6 +7,7 @@ from ship import Ship
 import game_functions as gf
 from pygame.sprite import Group
 
+
 # define main game function
 def alien_invasion():
     # initialization pygame library
@@ -38,7 +39,6 @@ def alien_invasion():
 
         bullets.update()
 
-        # print(len(aliens))
 
         #updates screen
         gf.update_screen(settings, screen, ship, bullets, aliens)

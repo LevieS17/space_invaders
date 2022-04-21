@@ -3,6 +3,8 @@ import pygame
 import sys
 from bullets import Bullets
 from aliens import Alien
+#from settings import Settings
+
 
 def check_events(settings, screen, ship, bullets):
     #checks for key/mouse events and responds
@@ -43,7 +45,6 @@ def keyup_event(event, ship):
         if event.key == pygame.K_DOWN:
             ship.moving_down = False
 
-
 def create_fleet(settings, screen, ship, aliens):
     #create a fleet of aliens
     alien = Alien(settings, screen)
@@ -76,9 +77,16 @@ def create_alien(settings, screen, aliens, alien_number, row_number):
     aliens.add(alien)
 
 
-def check_collision(bullets, aliens):
-    pygame.sprite.groupcollide(bullets, aliens, True, True)
+def check_collision(aliens, bullets, settings):
+    alien_collision = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if alien_collision:
+        settings.points += 1
+        print(settings.points)
 
+def print_text(settings, screen):
+    font = pygame.font.SysFont("Times New Roman", 30, True, False)
+    surface = font.render("Aliens Killed/Points:" + str(0 + settings.points), True, (255, 0, 0))
+    screen.blit(surface, (430, 570))
 
 def update_screen(settings, screen, ship, bullets, aliens):
     # color the screen with the background color
@@ -91,7 +99,7 @@ def update_screen(settings, screen, ship, bullets, aliens):
     ship.blitme()
 
     # check collisions and blow up alien if hit by bullet
-    check_collision(bullets, aliens)
+    check_collision(bullets, aliens, settings)
 
     # Draw bullets on the screen
     for bullet in bullets.sprites():
@@ -101,7 +109,7 @@ def update_screen(settings, screen, ship, bullets, aliens):
     # Draw the fleet of aliens
     aliens.draw(screen)
     aliens.update()
-
+    print_text(settings, screen)
 
     # update the display
     pygame.display.flip()
