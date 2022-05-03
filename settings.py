@@ -8,7 +8,7 @@ class Settings():
         self.screen_height = 600
 
         # bullet settings
-        self.bullet_speed = 1
+        self.bullet_speed = 5
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (255, 0, 0)
@@ -17,5 +17,8 @@ class Settings():
         self.lives = 3
         self.score = 0
         self.points = 0
+
+        # play game
+        self.game_active = False
 
 

@@ -6,7 +6,7 @@ from aliens import Alien
 #from settings import Settings
 
 
-def check_events(settings, screen, ship, bullets):
+def check_events(settings, screen, ship, bullets, play_button):
     #checks for key/mouse events and responds
     # loop to check keypress events
     for event in pygame.event.get():
@@ -17,6 +17,10 @@ def check_events(settings, screen, ship, bullets):
             keydown_event(event,settings, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             keyup_event(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if play_button.rect.collidepoint(mouse_x, mouse_y):
+                settings.game_active = True
 
 # moves the ship left and right and up and down
 def keydown_event(event,settings, screen, ship, bullets):
@@ -76,6 +80,30 @@ def create_alien(settings, screen, aliens, alien_number, row_number):
     alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     aliens.add(alien)
 
+def check_fleet(aliens,settings):
+    if len(aliens) == 0:
+        settings.fleet_lim += 1
+
+        return True
+    else:
+        return False
+
+def game_end(settings):
+    if settings.fleet_lim ==3:
+        print("your score was " + str(settings.score))
+        return True
+    elif settings.lives ==0:
+        print("Your dead")
+        print("your score was " + str(settings.score))
+        return True
+    else:
+        return False
+
+def close_game(settings):
+    if game_end(settings) == True:
+        sys.exit()
+
+
 
 def check_collision(aliens, bullets, settings):
     alien_collision = pygame.sprite.groupcollide(bullets, aliens, True, True)
@@ -88,28 +116,33 @@ def print_text(settings, screen):
     surface = font.render("Aliens Killed/Points:" + str(0 + settings.points), True, (255, 0, 0))
     screen.blit(surface, (430, 570))
 
-def update_screen(settings, screen, ship, bullets, aliens):
+def update_screen(settings, screen, ship, bullets, aliens, play_button):
     # color the screen with the background color
     screen.fill(settings.bg_color)
 
-    # update screen
-    ship.update()
+    if not settings.game_active:
+        play_button.draw_button()
 
-    # Draw the ship on the screen
-    ship.blitme()
+    elif settings.game_active:
 
-    # check collisions and blow up alien if hit by bullet
-    check_collision(bullets, aliens, settings)
+        # update screen
+        ship.update()
 
-    # Draw bullets on the screen
-    for bullet in bullets.sprites():
-        bullet.draw_bullets()
-        bullet.update()
+        # Draw the ship on the screen
+        ship.blitme()
 
-    # Draw the fleet of aliens
-    aliens.draw(screen)
-    aliens.update()
-    print_text(settings, screen)
+        # check collisions and blow up alien if hit by bullet
+        check_collision(bullets, aliens, settings)
+
+        # Draw bullets on the screen
+        for bullet in bullets.sprites():
+            bullet.draw_bullets()
+            bullet.update()
+
+        # Draw the fleet of aliens
+        aliens.draw(screen)
+        aliens.update()
+        print_text(settings, screen)
 
     # update the display
     pygame.display.flip()
