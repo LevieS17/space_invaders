@@ -61,7 +61,7 @@ class Alien(Sprite):
             self.direction *= -1
             self.rect.y += self.rect.height
             # self.y = self.rect.y
-        self.x += self.speed * self.direction
+        self.x += self.settings.alien_speed * self.direction
         self.rect.x = self.x
         self.rect.y = self.rect.y
 

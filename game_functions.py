@@ -88,6 +88,7 @@ def check_fleet(aliens,settings):
     else:
         return False
 
+
 def game_end(settings):
     if settings.fleet_lim ==3:
         print("your score was " + str(settings.score))
@@ -98,6 +99,12 @@ def game_end(settings):
         return True
     else:
         return False
+
+def new_wave(settings, screen, ship, aliens):
+    if len(aliens) == 0:
+        create_fleet(settings, screen, ship, aliens)
+        settings.wave_number += 1
+        settings.alien_speed = settings.wave_number*4
 
 def close_game(settings):
     if game_end(settings) == True:
@@ -145,7 +152,7 @@ def update_screen(settings, screen, ship, bullets, aliens, play_button):
     elif settings.game_active:
 
         # update screen
-        ship.update()
+        ship.update(settings)
 
         # Draw the ship on the screen
         ship.blitme()
@@ -162,6 +169,8 @@ def update_screen(settings, screen, ship, bullets, aliens, play_button):
         aliens.draw(screen)
         aliens.update()
         print_text(settings, screen)
+
+        new_wave(settings, screen, ship, aliens)
 
     # update the display
     pygame.display.flip()

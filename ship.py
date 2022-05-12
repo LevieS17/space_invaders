@@ -36,19 +36,19 @@ class Ship():
         self.screen.blit(self.image, self.rect)
 
     # Moves ship up/down/left/right and sets walls
-    def update(self):
+    def update(self, settings):
         # Sets walls and moves ships for the right of the screen
         if self.moving_right and self.rect.right <= self.screen_rect.right:
-            self.center += 1
+            self.center += settings.ship_speed
         # Sets walls and moves ships for the left of the screen.
         if self.moving_left and self.rect.left >= 0:
-            self.center -= 1
+            self.center -= settings.ship_speed
         # Set walls and moves ships for the top of the screen
         if self.moving_up and self.rect.top >= 0:
-            self.rect.centery -= 1
+            self.rect.centery -= settings.ship_speed
         # Sets walls and moves ships for the bottom of the screen
         if self.moving_down and self.rect.bottom <= 600:
-            self.rect.centery += 1
+            self.rect.centery += settings.ship_speed
 
         # set center of the rectangle of the x and y for the center of the screen
         self.rect.centerx = self.center

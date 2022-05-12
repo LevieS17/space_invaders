@@ -13,8 +13,17 @@ class Settings():
         self.bullet_height = 15
         self.bullet_color = (255, 0, 0)
 
+        # alien settings
+        self.alien_speed = 10
+
+        # ship speed
+        self.ship_speed = 7
+
         # wave settings
         self.wave_number = 1
+
+        # Difficulty Settings
+        self.difficulty_scale = float(1+ self.wave_number*5)
 
         # player settings
         self.lives = 3
