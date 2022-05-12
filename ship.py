@@ -50,8 +50,9 @@ class Ship():
         if self.moving_down and self.rect.bottom <= 600:
             self.rect.centery += 1
 
-        # set center of the rectangle of the x for the center of the screen
+        # set center of the rectangle of the x and y for the center of the screen
         self.rect.centerx = self.center
+
 
 
 

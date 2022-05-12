@@ -105,11 +105,30 @@ def close_game(settings):
 
 
 
-def check_collision(aliens, bullets, settings):
+def check_collision(settings, screen, ship, bullets, aliens):
     alien_collision = pygame.sprite.groupcollide(bullets, aliens, True, True)
     if alien_collision:
         settings.points += 1
         print(settings.points)
+
+    if pygame.sprite.spritecollideany(ship, aliens):
+        ship_hit(settings, screen, ship, aliens, bullets)
+
+    alien_invasion(settings, screen, ship, aliens, bullets)
+
+def ship_hit(settings, screen, ship, aliens, bullets):
+    settings.lives -= 1
+    if settings.lives > 0:
+        end_game(settings)
+
+def end_game(settings):
+    print("Congrats game is over! Point total is ", settings.points)
+    settings.game_on = False
+
+def alien_invasion(settings, screen, ship, aliens, bullets):
+    for alien in aliens:
+        if alien.rect.bottom > settings.screen_height:
+            settings.score -= 1
 
 def print_text(settings, screen):
     font = pygame.font.SysFont("Times New Roman", 30, True, False)
@@ -132,7 +151,7 @@ def update_screen(settings, screen, ship, bullets, aliens, play_button):
         ship.blitme()
 
         # check collisions and blow up alien if hit by bullet
-        check_collision(bullets, aliens, settings)
+        check_collision(settings, screen, ship, bullets, aliens)
 
         # Draw bullets on the screen
         for bullet in bullets.sprites():

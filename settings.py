@@ -13,9 +13,11 @@ class Settings():
         self.bullet_height = 15
         self.bullet_color = (255, 0, 0)
 
+        # wave settings
+        self.wave_number = 1
+
         # player settings
         self.lives = 3
-        self.score = 0
         self.points = 0
 
         # play game
